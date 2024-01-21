@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hi, cutie!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body oncopy="return false" oncut="return false" onpaste="return false">
+    <div class="message">
+        <div>
+            Will you be my valentine?
+        </div>
+        <div class="imageSpace"></div>
+        <div class="buttons">
+            <button class="button" id="yesButton" onclick="onYesButtonClick()">Yes</button>
+            <button class="button" id="noButton" onmouseover="randomizeNoButtonOnHover()"
+                onclick="randomizeNoButtonOnHover()">No</button>
+        </div>
+    </div>
+</body>
+<script>
+    function onYesButtonClick() {
+        window.location.href = "ly2.html";
+    }
+
+    function reloadPage() {
+        window.location.reload();
+    }
+
+    const screenHeight = window.innerHeight;
+    const screenWidth = window.innerWidth;
+    let lastRandomX = 0;
+    let lastRandomY = 0;
+
+
+    console.log(`screenHeight ${screenHeight} screenWidth ${screenWidth}`);
+    function randomizeNoButtonOnHover() {
+        const noButton = document.getElementById("noButton");
+        const buttonHeight = noButton.offsetHeight;
+        const buttonWidth = noButton.offsetWidth;
+
+        let randomX, randomY;
+        do {
+            randomX = Math.max(0, Math.min(screenWidth - buttonWidth, Math.random() * (screenWidth - buttonWidth))) / 3;
+            randomY = Math.max(0, Math.min(screenHeight - buttonHeight, Math.random() * (screenHeight - buttonHeight))) / 3;
+
+            randomY = randomY < screenHeight ? randomY : screenHeight - 50;
+            randomX = randomX < screenWidth ? randomX : screenWidth - 50;
+        } while (isTooClose(randomX, randomY));
+        lastRandomX = randomX;
+        lastRandomY = randomY;
+
+        console.log(`randomY ${randomY} randomX ${randomX}`);
+        noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function isTooClose(newX, newY) {
+        const distanceThreshold = 100;
+        const distance = Math.sqrt(Math.pow(newX - lastRandomX, 2) + Math.pow(newY - lastRandomY, 2));
+        return distance < distanceThreshold;
+    }
+
+
+</script>
+
+</html>
